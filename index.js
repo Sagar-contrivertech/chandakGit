@@ -35,12 +35,12 @@ app.post('/', async (req, res) => {
             valueInputOption: 'USER_ENTERED',
             resource: {
                 values: [
-                    [Name, Number, Email],
+                    [ Name, Number, Email ],
                 ]
             }
         })
         if (writeReq.status === 200) {
-            return res.json({ msg: 'Spreadsheet updated successfully!' })
+            return res.status(200).json({ msg: 'Spreadsheet updated successfully!' })
         }
         return res.json({ msg: 'Something went wrong while updating the spreadsheet.' })
     } catch (e) {
