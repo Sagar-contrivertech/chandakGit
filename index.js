@@ -1,8 +1,10 @@
 const express = require('express')
+const cors = require('cors')
 
 const { google } = require('googleapis')
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 
 //authentications
@@ -24,7 +26,7 @@ const id = "13y0G3qCfkZ7zSM_c1djeBRQrZzZB_9qx_zz35Ke3aEU"// spreadsheet i
 app.post('/', async (req, res) => {
     try {
         // destructure'newName'and'newValue'from req.body
-        const { Name, Number,Email } = req.body;
+        const { Name, Number, Email } = req.body;
         const { sheets } = await authentication();
         // writing data toaspreadsheet
         const writeReq = await sheets.spreadsheets.values.append({
@@ -33,7 +35,7 @@ app.post('/', async (req, res) => {
             valueInputOption: 'USER_ENTERED',
             resource: {
                 values: [
-                    [Name, Number,Email],
+                    [Name, Number, Email],
                 ]
             }
         })
