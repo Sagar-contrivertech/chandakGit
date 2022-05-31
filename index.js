@@ -42,6 +42,39 @@ app.post('/', async (req, res) => {
             }
         })
         if (writeReq.status === 200) {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: "keval.hdpi@gmail.com",
+                    pass: "keval@1234"
+                }
+            });
+        
+            const mailOptions = {
+                from: req.body.Email,
+                to: 'keval.hdpi@gmail.com',
+                subject: ` New lead from ${req.body.Name} `,
+                text: `You have recievied new Lead from Website
+                Name : ${req.body.Name}
+                Number: ${req.body.Number}
+                Email: ${req.body.Email}
+                
+                Leads has also been update to sheet
+        
+                https://docs.google.com/spreadsheets/d/13y0G3qCfkZ7zSM_c1djeBRQrZzZB_9qx_zz35Ke3aEU/edit?usp=sharing
+        
+                `
+            }
+        
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error)
+                    res.status(400).send(error)
+                } else {
+                    console.log('Email sent ' + info.response)
+                    res.status(200).send('succes')
+                }
+            })
             return res.status(200).json({ msg: 'Spreadsheet updated successfully!' })
         }
         return res.json({ msg: 'Something went wrong while updating the spreadsheet.' })
