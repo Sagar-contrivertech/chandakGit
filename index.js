@@ -28,6 +28,9 @@ const id = "13y0G3qCfkZ7zSM_c1djeBRQrZzZB_9qx_zz35Ke3aEU"// spreadsheet i
 app.post('/', async (req, res) => {
     try {
         // destructure'newName'and'newValue'from req.body
+        const d = new Date();
+        let date = d.toLocaleDateString();
+
         const { Name, Number, Email } = req.body;
         const { sheets } = await authentication();
         // writing data toaspreadsheet
@@ -37,11 +40,12 @@ app.post('/', async (req, res) => {
             valueInputOption: 'USER_ENTERED',
             resource: {
                 values: [
-                    [Name, Number, Email],
+                    [date,Name, Number, Email],
                 ]
             }
         })
         if (writeReq.status === 200) {
+
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
